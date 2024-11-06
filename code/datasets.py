@@ -21,10 +21,11 @@ class except_Dataset(Dataset):
             self.data = entry["data"]
             self.labels = entry["labels"]
 
-        with open(file_root + "standard_deviation.pkl", "rb") as fp:
-            entry = pickle.load(fp)
-            self.mean = entry["mean"]
-            self.std = entry["std"]
+        
+        #with open(file_root + "standard_deviation.pkl", "rb") as fp:
+        #    entry = pickle.load(fp)
+        #    self.mean = entry["mean"]
+        #    self.std = entry["std"]
 
     def __len__(self):
         return len(self.data)
@@ -32,8 +33,8 @@ class except_Dataset(Dataset):
     def __getitem__(self, idx):
         x = self.data[idx].copy()  # (seq_length, feat_dim) array
         x[:, 6:28] += 1
-        x[:, 28] /= 100
-        x[:, 29:] = (x[:, 29:] - self.mean[:-1]) / self.std[:-1]
+        #x[:, 28] /= 100
+        #x[:, 29:] = (x[:, 29:] - self.mean[:-1]) / self.std[:-1]
         target = min(self.labels[idx], 1.)
         return x, target
 
@@ -53,10 +54,10 @@ class capacity_Dataset(Dataset):
         self.targets_regression = entry['labels_regression']
         self.targets_classification = entry['labels_classification']
 
-        with open(file_root + "standard_deviation.pkl", "rb") as fp:
-            mean_std = pickle.load(fp)
-            self.mean = mean_std['mean']
-            self.std = mean_std['std']
+        #with open(file_root + "standard_deviation.pkl", "rb") as fp:
+        #    mean_std = pickle.load(fp)
+        #    self.mean = mean_std['mean']
+        #    self.std = mean_std['std']
 
     def __len__(self):
         return len(self.targets_regression)
@@ -66,8 +67,8 @@ class capacity_Dataset(Dataset):
         circle = x[:, -14].copy()
         temp = x[:, 51].copy()
         x[:, 6:28] += 1
-        x[:, 28] /= 100
-        x[:, 29:] = (x[:, 29:] - self.mean[:-1]) / self.std[:-1]
+        #x[:, 28] /= 100
+        #x[:, 29:] = (x[:, 29:] - self.mean[:-1]) / self.std[:-1]
         target = min(self.targets_regression[idx] / 1000., 30.)
         return x, target, circle, temp
 
@@ -89,8 +90,8 @@ class riding_Dataset(Dataset):
 
         with open(file_root + "standard_deviation.pkl", "rb") as fp:
             entry = pickle.load(fp)
-            self.mean = entry["mean"]
-            self.std = entry["std"]
+            #self.mean = entry["mean"]
+            #self.std = entry["std"]
 
     def __len__(self):
         return len(self.targets_regression)
@@ -101,8 +102,8 @@ class riding_Dataset(Dataset):
         temp = x[:, 51].copy()
         date_29 = x[:, 29].copy()
         x[:, 6:28] += 1
-        x[:, 28] /= 100
-        x[:, 29:] = (x[:, 29:] - self.mean[:-1]) / self.std[:-1]
+        #x[:, 28] /= 100
+        #x[:, 29:] = (x[:, 29:] - self.mean[:-1]) / self.std[:-1]
         target = min(self.targets_regression[idx], 120.)
         return x, target, circle, temp, date_29
 
