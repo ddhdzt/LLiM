@@ -1,4 +1,4 @@
-# LLiM API Integration Guide
+# LLiM API Guide
 
 GPU cluster hosting three downstream-task-optimized 1 B-parameter LLiM models.  
 All endpoints are reachable after security authentication.
@@ -28,7 +28,7 @@ For server security:
 
 ### 3.1 Request Format
 
-```json
+```python
 {
   "inputs":  data[i][None, :, :].tolist(),
   "labels":  labels[i].tolist()
@@ -39,7 +39,7 @@ For server security:
 ### 3.2 Access Example
 You can directly use the following PY code to modify the local storage file address and task_num:.
 
-```
+```python
 response = requests.post(server_b_url, json=sample)
 prediction = response.json()
 
